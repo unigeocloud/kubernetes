@@ -68,12 +68,12 @@ if (k8smCount > 1) {
 if (${settings.storage:false}) {
   var path = "/data";
   resp.nodes.push({
-    count: 2,
+    count: (prod && !dev ? 2 : 1),
     nodeType: "storage",
     cloudlets: 8,
     displayName: "Storage",
     nodeGroup: "storage",
-    cluster: "true",
+    cluster: (prod && !dev ? "true": "false"),
     volumes: [
       path
     ]
@@ -84,10 +84,14 @@ if (${settings.storage:false}) {
     n.volumes.push(path);
     n.volumeMounts[path] = {
         readOnly: false,
-        sourcePath: path,
-        sourceNodeId: "${nodes.storage.master.id}",
-        sourceAddressType: "NODE_GROUP"
+        sourcePath: path
     };
+    if (prod && !dev) {
+      n.volumeMounts[path].sourceNodeId: "${nodes.storage.master.id}",
+      n.volumeMounts[path].sourceAddressType: "NODE_GROUP"
+    } else {
+      n.volumeMounts[path].sourceNodeGroup: "storage"
+    }
   }
 }
 return resp;

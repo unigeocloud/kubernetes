@@ -315,17 +315,18 @@ addons:
     description: Configure remote API access and monitoring tools or upgrade your Kubernetes cluster
     logo: /images/k8s-logo.png
     settings:
-      fields:
-        - type: displayfield
-          caption: Useful info
-          hideLabel: true
-          markup: Access and manage the cluster remotely via API
-        - type: checkbox
-          name: api
-          caption: Remote API access is enabled
+      api:
+        fields:
+          - type: displayfield
+            caption: Useful info
+            hideLabel: true
+            markup: Access and manage the cluster remotely via API
+          - type: checkbox
+            name: api
+            caption: Remote API access is enabled
     buttons:
       - caption: Remote API
-        settings: main
+        settings: api
         action: addon-remote-api
         loadingText: Updating...
         confirmText: Are you sure?

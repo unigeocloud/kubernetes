@@ -225,15 +225,14 @@ actions:
            kubectl create -f ${baseUrl}/addons/ingress/${globals.ingress-dir}/dashboard-ingress-beta.yaml
 
   install-helm-master:
-    cmd[${nodes.k8sm.master.id}]: |-
-      curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash > /dev/null 2>&1
-      helm init --upgrade
-      helm repo update
-      kubectl create serviceaccount --namespace kube-system tiller
-      kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-      kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
-      while true; do kubectl get pods --field-selector=status.phase=Running -n kube-system | grep tiller && break ; done
-      sleep 5
+        cmd[${nodes.k8sm.master.id}]: |-
+        kubectl create serviceaccount --namespace kube-system tiller
+        kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+        curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash > /dev/null 2>&1
+        helm init --service-account tiller --override spec.selector.matchLabels.'name'='tiller',spec.selector.matchLabels.'app'='helm' --output yaml | sed 's@apiVersion: extensions/v1beta1@apiVersion: apps/v1@' | kubectl apply -f -
+        helm repo update
+        while true; do kubectl get pods --field-selector=status.phase=Running -n kube-system | grep tiller && break ; done
+        sleep 5
 
   install-helm-slave:
     cmd[${this.id}]: |-

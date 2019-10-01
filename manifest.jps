@@ -36,11 +36,11 @@ onInstall:
 
   - connect-workers: cp
   - setup-overlay
-  - if ('${settings.ingress-controller}' == 'nginx'):
+  - if ('${settings.ingress-controller}' == 'Nginx'):
       - setGlobals:
           ingress-dir: nginx
       - install-nginx
-  - elif ('${settings.ingress-controller}' == 'haproxy'):
+  - elif ('${settings.ingress-controller}' == 'HAProxy'):
       - setGlobals:
           ingress-dir: haproxy
       - install-haproxy

@@ -31,9 +31,9 @@ fields:
     type: list
     caption: Ingress Controller
     values:
-      Nginx: nginx
-      HAProxy: haproxy
-      Traefik: traefik
+      Nginx: Nginx
+      HAProxy: HAProxy
+      Traefik: Traefik
     default: Nginx
     hideLabel: false
     editable: false

@@ -299,9 +299,9 @@ checkHaproxyIngressController() {
 
 checkIngressController() {
   printInfo "Checking ${INGRESS_CONTROLLER} ingress controller"
-  if [ ${INGRESS_CONTROLLER} == "traefik" ]; then
+  if [ ${INGRESS_CONTROLLER} == "Traefik" ]; then
     checkTraefikIngressController
-  elif [ ${INGRESS_CONTROLLER} == "nginx" ]; then
+  elif [ ${INGRESS_CONTROLLER} == "Nginx" ]; then
     checkNginxIngressController
   else
     checkHaproxyIngressController
